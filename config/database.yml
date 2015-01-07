@@ -24,7 +24,7 @@ production:
   #database: db/development.sqlite3
   adapter: mysql2
   encoding: utf8
-  database: kaoru_home
+  database: rails_training
   host: 192.168.1.203
   username: remote
   password: letmedie
