@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>rails training</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div class="container-fluid">
+
+
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="<%= full_url '/money_note' %>"><b>rails training</b></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        
+        <li><a href="<%= full_url '/money_note' %>">記帳本</a></li>
+        <li><a href="<%= full_url '/foodmenu/index/drink' %>">備忘清單</a></li>
+
+
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">相本<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+            <% albums = PhotoAlbum.all %>
+            <% albums.each do |album| %>
+              <li><a href="<%= full_url('/photo_album/photoset/' + album.path) %>" ><%= album.name %></a></li>
+            <% end %>
+            </ul>
+        </li>
+        
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">電影<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="<%= full_url '/movie/index' %>">電影時刻表追蹤</a></li>
+                <li><a href="<%= full_url '/movie/theater' %>">常去的電影院</a></li>
+            </ul>
+        </li>
+
+        
+        <!--<li><a href="/foodmenu/index/food">菜單</a></li>-->
+        
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">樂透<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="<%= full_url '/lottery/history/superlottos/1' %>">威力彩各期獎號</a></li>
+                <li><a href="<%= full_url '/lottery/statistic/superlottos' %>">威力彩統計方法</a></li>
+                <li class="divider"></li>
+                <li><a href="<%= full_url '/lottery/history/lottery649s/1' %>">大樂透各期獎號</a></li>
+                <li><a href="<%= full_url '/lottery/statistic/lottery649s' %>">大樂透統計方法</a></li>
+            </ul>
+        </li>
+
+        <% unless session[:account].blank? %>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理工具<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="<%= full_url '/photo_album/manage' %>">相簿管理</a></li>
+                <li><a href="<%= full_url '/logger/index' %>">使用統計</a></li>
+                <li><a href="<%= full_url '/logger/history/1' %>">瀏覽紀錄</a></li>
+                <li><a href="<%= full_url '/logger/varify/1' %>">登入紀錄</a></li>
+            </ul>
+        </li>
+        <% end %>
+
+        </ul>
+      <!--<ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Player Panel</a></li>
+      </ul>-->
+
+    </div><!-- /.navbar-collapse -->
+
+
+    <div style="position: absolute; top: 0px; right: 10px;">
+        <% if session[:account].blank? %>
+            <a id="id_login" href="<%= full_url '/top/login' %>" style="color: white;" class="fancybox fancybox.ajax">登入</a>
+        <% else %>
+            <a href="<%= full_url '/top/logout' %>" style="color: white;">登出</a>
+        <% end %>
+        <a id="id_first" href="<%= full_url '/top/first' %>" style="color: white; display: none" class="fancybox fancybox.ajax">first</a>
+    </div>
+
+</div><!-- /.container-fluid -->
+</nav>
+<%= yield %>
+</div>
+
+
+<% # log ip and browser type
+    cookies.delete(:_ror_template_session) # remove old scookie name
+    record_login_history
+%>
+
+</body>
+<script language="javascript">
+
+//$(document).one( 'page:change', ready);
+$(document).ready(ready);
+function ready()
+{
+    initFancyBox();
+}
+
+
+function initFancyBox()
+{
+    // commit this if wanna debug
+    $("#id_login").fancybox({
+        parent      : 'body',
+        maxWidth    : 400,
+        maxHeight   : 300,
+        fitToView   : false,
+        width       : '70%',
+        height      : '70%',
+        autoSize    : false,
+        closeClick  : false,
+        openEffect  : 'none',
+        closeEffect : 'none'
+    });
+
+    $("#id_first").fancybox({
+        parent      : 'body',
+        maxWidth    : 600,
+        maxHeight   : 400,
+        fitToView   : false,
+        autoSize    : false,
+        closeClick  : false,
+        openEffect  : 'none',
+        closeEffect : 'none',
+        closeBtn    : false,
+        closeClick  : false,
+        keys: {
+            close: [null]
+        },
+        helpers   : { 
+            overlay : {closeClick: false}
+        }
+    });
+}
+
+</script>
+
+
+</html>

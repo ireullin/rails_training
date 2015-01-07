@@ -1,0 +1,95 @@
+
+<div class="container-fluid">
+
+	<div class="page-header">
+		<h1>相簿管理</h1>
+	</div>
+
+	<% unless notice.nil? %>
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+				<span class="sr-only">Close</span>
+			</button>
+	 		<strong><%= notice %></strong>
+		</div>
+	<% end %>
+
+	<div>
+		<table class="table table-hover table-striped">
+		    <thead>
+		    	<tr>
+		    		<th>
+		    			<a class="fancybox fancybox.ajax fancy_album_form" href="<%= full_url '/photo_album/new' %>">
+							<span class="glyphicon glyphicon-plus"></span>
+						</a>
+		    		</th>
+		        	<th>path</th>
+					<th>name</th>
+					<th>yahoo account</th>
+					<th>api key</th>
+					<th>shared secret</th>
+					<th>photoset id</th>
+					<th>user id</th>
+					<th>created date</th>
+					<th>updated date</th>
+		      	</tr>
+		    </thead>
+
+		    <tbody>
+		      	<% @photo_albums.each do |row| %>
+		        	<tr>
+		        		<td>
+		        			<a class="fancybox fancybox.ajax fancy_album_form" href="<%= full_url ('/photo_album/edit/') + row.path %>" >
+		        				<span class="glyphicon glyphicon-file"></span>
+		        			</a>
+		        			<a href="<%= full_url('/photo_album/delete/') + row.path %>" data-confirm="確認刪除?" data-method="post" >
+		        				<span class="glyphicon glyphicon-remove"></span>
+		        			</a>
+		        		</td>
+		          		<td><%= row.path %></td>
+						<td><%= row.name %></td>
+						<td><%= row.yahoo_account %></td>
+						<td><%= row.api_key %></td>
+						<td><%= row.shared_secret %></td>
+						<td><%= row.photoset_id %></td>
+						<td><%= row.user_id %></td>
+						<td><%= row.created_at.localtime.strftime("%Y-%m-%d %H:%M:%S") %></td>
+						<td><%= row.updated_at.localtime.strftime("%Y-%m-%d %H:%M:%S") %></td>
+		        	</tr>
+		      	<% end %>
+		    </tbody>
+		</table>
+	</div>
+	
+	
+</div>
+
+<script language="javascript">
+
+
+$(document).ready(ready);
+function ready()
+{
+	// commit this if wanna debug
+	$(".fancy_album_form").fancybox({
+		parent      : 'body',
+  		maxWidth	: 800,
+		maxHeight	: 600,
+		fitToView	: false,
+		width		: '70%',
+		height		: '70%',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+	});
+
+	/*$('a[data-confirm], input[data-confirm]').on('click', function() 
+	{
+    	if (!confirm($(this).attr('data-confirm'))) 
+      		return false;
+	});*/
+}
+
+</script>
